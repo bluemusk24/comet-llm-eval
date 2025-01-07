@@ -1,0 +1,135 @@
+# Module 1: Course Objectives 
+
+1. Learn the fundamental concepts of LLM evaluation
+2. Develop a systematic framework for evaluating LLM applications
+3. Learn from use cases how to apply best practices in LLM evaluation.
+
+* LLM evaluation is the process of systematically evaluating the performance of LLMs on a desired application. Evaluation of LLM is necessary before and after deploying your application into production.
+
+* Evaluation helps to:
+1. detect and mitigate undesired issues and risks from LLMs. e.g. hallucination, stereotypes and biases, which could give harmful responses to the user
+2. avoid bad user experiences in your LLM-powered products.
+3. build faster iteration and efficiencies with the LLM application.
+
+* Challenges with LLM evaluation:
+1. evaluating complex LLM workflows
+2. defining and building reliable evaluation metrics
+3. scaling evaluation
+4. cost and effort
+5. continuous evaluation and monitoring
+6. no standardization
+
+
+# Module 2: 
+
+* OPIK is a flexible LLM evaluation tools that allows manual evaluation and LLM as a judge evaluation. Also, OPIK is an open-source end-to-end platform for evaluating, testing and monitoring LLM applications. OPIK support the following LLM evaluation workflows:
+1. complex logging and tracing at scale
+2. automating evaluation workflow
+3. testing LLM applications before deployment
+4. monitoring performance and observability of LLM applications in production
+
+* Typical LLM evaluation workflow with OPIK:
+Step 1: Build an LLM app (e.g. with OpenAI)
+Step 2: Log LLM calls and traces through OPIK integration capabilities (OPIK works with tools like: OpenAI, Langchain, llama index etc.)
+Step 3: Create and store datasets to run evaluation (eval dataset)
+Step 4: Evaluate your application using an evaluation dataset; human (manual-defining-metrics) evaluation, automatic evaluation (heuristics), LLM-as-a-judge
+Step 5: Use OPIK Pytest integration to carry out unit tests and even compare results between runs.
+Step 6: Deploy and continuously monitor and evaluate the LLM application.
+
+* Logging LLM calls and traces with OPIK:
+1. Use one of OPIK's integration.
+2. Use the @track decorator - track both LLM calls and function calls in your application.
+3. Use Python SDK - for flexibility and customizability. recommended for full control over logging process.
+4. Use OPIK REST API - when not using Python, use the Rest API to log LLM calls and traces.
+
+* Login to comet.com, click Try Opik, click Projects, click profile to get API KEY to access Comet via Python SDK (API_KEY = wkP6mtUG4vmMZp8yU4uJSXQh6).
+
+* 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 --> Hugging Face llama token
+
+
+# Module 3:
+
+3.1 - Introduction to Tracing with Opik
+* check codes on Opik1-intro-tracing.ipynb. Downloaded with Google colab cos of GPU access.
+
+3.2 - Tracking multi step LLM Chain Demo
+* Opik2-multi-step-tracing.ipynb  --> check codes on downloaded Google Colab
+
+3.3 - Annotate Traces --> done on all logged-in traces in Opik Projects. It does the following:
+* records qualitative or quantitative feedback on specific LLM interactions
+* track performance over time
+* identify areas for improvement
+* compare different model version
+* gather data for finetuning or retraining
+* provide stakeholders with concrete metrics on system effectiveness.
+Note: Annotate is found in the top right corner of any logged in traces. You can assign a feedback score to any trace and it saves automatically. It can also be used for manual evaluation
+
+3.4 - Opik Datasets: this can be created in the OPIK UI (using the create new dataset) or via python SDK. Useful for evaluation, datasets should have inputs and maybe outputs (not necessary). How to create it is taught later in the video
+
+3.5 - Opik Experiment: necessary to run experiment using the annotated eval dataset via Opik python SDK
+Evaluation can include:
+* Manual evaluation - human provide numerical and categorical feedback
+* Heuristic/automatic evaluation - Levenshtein, Regex, Contains/Equals
+* LLM-based evaluation - answer relevance, hallucination, moderation. Custom metrics (creativity, factuality, coherence, safety)
+
+
+# Module 4: Project(Evaluating a LLM Chatbot) using Prompt Chaining. This process can also be applied to a RAG system and Agentic Systems.
+
+4.1 - Modern LLM Workflows: LLM selection -> Collect data -> Prompt Engr -> Retrieval -> Trace LLM response -> Evaluation -> Unit test(Pytest) -> Deploying -> Monitoring and Observability.
+
+4.2 - Building a Restaurant Chatbot with Prompt Chaining  
+* User request
+* Reasoning Chain -> Generate reasoning steps and a response to the user
+* Extract Response -> Extracts the response from the response to the user generated in the reasoning chain.
+* Refine Response -> Refines final response (e.g. shorten response and transform to a friendly tone)
+* Verify Response -> Verifies that the final response from last step is factually answered based on menu.
+* Final chatbot response to the User
+
+# Note: we use OPIK for LLM Evaluation below
+* Login Traces
+* Create eval Datasets
+* Run experiments on the eval datasets
+* Unit Testing using Pytest
+* Deployment and Monitoring
+
+* Opik3-food_chatbot_traces.ipynb --> check project codes on downloaded Google Colab
+
+
+# Module 5: Building an LLM Evaluation Pipeline
+
+5.1 - Evaluation Datasets: Opik4-create_dataset.ipynb  --> check codes
+
+5.2 - Manual Evaluation: you run an experiment with the created dataset by providing and input (evaluation task) to the LLM application to get an output. Thereafter, you provide an evaluation metric (e.g. human feedback score) on the output of the LLM and the expected output from the dataset.  --> check codes Opik5_evaluation.ipynb
+
+5.3 - Drawbacks of Manual Evaluation: 
+* Expensive and time-consuming (very slow)
+* Not scalable like automatic evaluation and LLM-as-a-judge evaluation.
+
+
+# Module 6: Heuristic Metrics for LLM evaluation (Automated Evaluation)
+
+6.1 - Introduction to Heuristic Evaluation Metrics (AKA Rule-based methods)
+* Levenshtein distance: checks distance between two texts sequences
+* Semantic Similarity: e.g. cosine similarity, converts texts to vectors and compares how similar they are
+* Regex pattern matching: checks for matching string
+* Equals & Contains Logic: checks for matching strings too
+* ROUGE, BLEU, etc.: Standard AI metrics for evaluating outputs of machine translation and text summarization
+
+6.2 - Implementing Heuristic Evaluation --> check codes Opik6-evaluation-heuristics.ipynb
+
+6.3 - Drawbacks of Heuristics Evaluation:
+* Too constrained and sometimes inaccurate
+* Not robust enough (does not support too many LLM use cases)
+* Hard to define for more challenging tasks
+
+
+# Module 7: LLM-Based Metrics for LLM Evaluation (LLM-as-a-Judge)
+
+7.1 - Why LLM-Based Evaluation (Intro)
+* widely popular due to strong reasoning of LLMS
+* great at evaluation
+* enables scaling, cheaper and supports more complex evaluation
+* metrics - hallucination, factuality, coherence, context recall, context precision
+
+7.2 - Implementing LLM-as-a-judge evaluation --> check codes Opik7-evaluation-llm-based.ipynb
+* I will attempt LLM-as-a-judge evaluation on the menu item dataset
